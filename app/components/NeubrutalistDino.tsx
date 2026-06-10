@@ -232,7 +232,7 @@ export default function NeubrutalistDino() {
         SYS_DINO_V2.1
       </div>
       <div className="absolute top-4 left-4 bg-signal-pink text-white border-2 border-black font-label-code text-[10px] px-2 py-1 rotate-[-2deg]">
-        INTERACTIVE_MODULE
+        HIGHEST SCORE WILL GET TO HIRE ME
       </div>
     </div>
   );

@@ -38,6 +38,7 @@ const projects = [
       "Advanced security audit tool for analyzing external attack surfaces. Built with Next.js and FastAPI for high-performance scanning.",
     tags: ["NEXT.JS", "FASTAPI"],
     headerClass: "bg-cyber-yellow text-on-surface",
+    link: "https://github.com/alenelias123/recon",
   },
   {
     title: "Site Infrastructure Analyzer",
@@ -45,6 +46,7 @@ const projects = [
       "A browser extension that deconstructs website technologies and identifies potential architectural vulnerabilities in real-time.",
     tags: ["JAVASCRIPT", "CHROME API"],
     headerClass: "bg-signal-pink text-white-base",
+    link: "https://github.com/alenelias123/Site-Ammavan",
   },
   {
     title: "onlyU - E2E Chat",
@@ -52,6 +54,7 @@ const projects = [
       "End-to-End Encrypted communication platform prioritizing privacy. Zero-knowledge architecture for secure data transmission.",
     tags: ["SECURITY", "CRYPTOGRAPHY"],
     headerClass: "bg-tertiary-container text-on-surface",
+    link: "https://github.com/alenelias123/onlyU",
   },
   {
     title: "Assistive Hardware System",
@@ -59,6 +62,7 @@ const projects = [
       "Hardware solution using Raspberry Pi 5 and Gemini API to assist visually impaired individuals through real-time environment narration.",
     tags: ["PI 5", "GEMINI AI"],
     headerClass: "bg-on-background text-cyber-yellow",
+    link: "https://github.com/alenelias123/braille2",
   },
 ];
 
@@ -281,7 +285,9 @@ export default function Home() {
                 <div className="mt-auto p-6 pt-0">
                   <a
                     className="inline-flex items-center gap-2 font-label-caps text-label-caps font-extrabold transition-colors hover:text-signal-pink"
-                    href="#home"
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     VIEW_SOURCE
                     <span
