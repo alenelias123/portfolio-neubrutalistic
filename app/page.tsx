@@ -86,7 +86,7 @@ const timeline = [
     items: [
       {
         dotClass: "bg-signal-pink",
-        dates: "2024",
+        dates: "2024-2028",
         title: "B.Tech in Engineering",
         subtitle: "Cochin University of Science and Technology (CUSAT)",
         body: "Focusing on Network Engineering and System Security architectures.",
@@ -353,15 +353,22 @@ export default function Home() {
             >
               Terminal
             </button>
-            {["GitHub", "LinkedIn"].map((item) => (
-              <a
-                className="font-label-code text-label-code text-terminal-green transition-all hover:skew-x-2 hover:text-signal-pink"
-                href="#home"
-                key={item}
-              >
-                {item}
-              </a>
-            ))}
+            <a
+              className="font-label-code text-label-code text-terminal-green transition-all hover:skew-x-2 hover:text-signal-pink"
+              href="https://github.com/alenelias123"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              className="font-label-code text-label-code text-terminal-green transition-all hover:skew-x-2 hover:text-signal-pink"
+              href="https://www.linkedin.com/in/alen-elias-bb3812327/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
           </div>
           <div className="flex items-center gap-4 border-2 border-black bg-surface-container-high p-4">
             <div className="h-3 w-3 animate-pulse rounded-full bg-terminal-green" />

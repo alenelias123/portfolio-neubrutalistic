@@ -7,7 +7,7 @@ const projects = [
     description: "Advanced security audit tool for analyzing external attack surfaces. Built with Next.js and FastAPI for high-performance scanning.",
     tags: ["NEXT.JS", "FASTAPI"],
     color: "bg-cyber-yellow",
-    link: "#",
+    link: "https://github.com/alenelias123/recon",
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const projects = [
     description: "Description for the second critical deployment. Add more details about technology and purpose here.",
     tags: ["REACT", "NODE.JS"],
     color: "bg-cyan-300",
-    link: "#",
+    link: "https://github.com/alenelias123/Site-Ammavan",
   },
   {
     id: 3,
@@ -23,7 +23,7 @@ const projects = [
     description: "Description for the third critical deployment. Highlight key achievements or unique capabilities.",
     tags: ["PYTHON", "TENSORFLOW"],
     color: "bg-lime-300",
-    link: "#",
+    link: "https://github.com/alenelias123/onlyU",
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ const projects = [
     description: "Description for the fourth critical deployment. Fully customizable for your needs.",
     tags: ["GO", "DOCKER"],
     color: "bg-pink-300",
-    link: "#",
+    link: "https://github.com/alenelias123/braille2",
   },
 ];
 
