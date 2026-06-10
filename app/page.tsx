@@ -1,5 +1,6 @@
 import Image from "next/image";
 import CursorRayTracerWrapper from "./components/CursorRayTracerWrapper";
+import ScrollReveal from "./components/ScrollReveal";
 
 const heroImage =
   "/517RsN-X6-L.webp";
@@ -115,7 +116,7 @@ export default function Home() {
           className="flex scroll-mt-32 flex-col items-center gap-12 pt-8 md:flex-row"
           id="home"
         >
-          <div className="flex-1 space-y-6">
+          <ScrollReveal direction="left" className="flex-1 space-y-6">
             <div className="inline-block rotate-[-2deg] border-2 border-black bg-tertiary-container px-3 py-1 font-label-code text-label-code">
               SYSTEM_INIT: READY
             </div>
@@ -143,9 +144,9 @@ export default function Home() {
                 DOWNLOAD CV
               </a>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="relative w-full flex-1">
+          <ScrollReveal direction="right" className="relative w-full flex-1">
             <div className="absolute -left-4 -top-4 h-full w-full border-4 border-black bg-signal-pink" />
             <Image
               alt="Cybersecurity workspace with neon server racks and digital interfaces"
@@ -155,11 +156,11 @@ export default function Home() {
               src={heroImage}
               width={900}
             />
-          </div>
+          </ScrollReveal>
         </section>
 
         <section className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <div className="neubrutalist-shadow space-y-4 border-4 border-black bg-white-base p-8 md:col-span-2">
+          <ScrollReveal direction="up" className="neubrutalist-shadow space-y-4 border-4 border-black bg-white-base p-8 md:col-span-2">
             <h2 className="font-headline-lg text-headline-lg uppercase underline decoration-cyber-yellow decoration-8 underline-offset-4">
               Identity_Brief
             </h2>
@@ -182,9 +183,9 @@ export default function Home() {
               and developing assistive hardware that bridges the gap between AI
               and the physical world.
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="neubrutalist-shadow flex flex-col justify-between border-4 border-black bg-tertiary-container p-8">
+          <ScrollReveal direction="up" delay={0.2} className="neubrutalist-shadow flex flex-col justify-between border-4 border-black bg-tertiary-container p-8">
             <div>
               <h3 className="mb-2 font-label-caps text-label-caps text-on-surface-variant">
                 ACHIEVEMENT_01
@@ -199,10 +200,10 @@ export default function Home() {
             >
               workspace_premium
             </span>
-          </div>
+          </ScrollReveal>
         </section>
 
-        <section className="scroll-mt-32 space-y-8" id="skills">
+        <ScrollReveal direction="up" className="scroll-mt-32 space-y-8" id="skills">
           <h2 className="flex flex-wrap items-center gap-4 font-headline-lg text-headline-lg uppercase">
             <span className="bg-black px-3 py-1 text-white-base">SKILLS</span>
             <span className="font-label-code text-label-code text-on-surface-variant">
@@ -219,22 +220,24 @@ export default function Home() {
               </span>
             ))}
           </div>
-        </section>
+        </ScrollReveal>
 
         <section className="scroll-mt-32 space-y-12" id="projects">
-          <div className="flex items-end justify-between gap-8">
+          <ScrollReveal direction="up" className="flex items-end justify-between gap-8">
             <h2 className="font-headline-lg text-headline-lg uppercase">
               Projects
             </h2>
             <p className="max-w-xs text-right font-label-code text-label-code text-on-surface-variant">
               04 CRITICAL DEPLOYMENTS DETECTED
             </p>
-          </div>
+          </ScrollReveal>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-            {projects.map((project) => (
-              <article
-                className="neubrutalist-shadow neubrutalist-shadow-hover group flex flex-col border-4 border-black bg-white-base transition-all"
+            {projects.map((project, index) => (
+              <ScrollReveal
                 key={project.title}
+                direction="up"
+                delay={index * 0.1}
+                className="neubrutalist-shadow neubrutalist-shadow-hover group flex w-full flex-col border-4 border-black bg-white-base transition-all"
               >
                 <div className={`${project.headerClass} border-b-4 border-black p-4`}>
                   <h3 className="font-headline-md text-headline-md font-black uppercase">
@@ -270,7 +273,7 @@ export default function Home() {
                     </span>
                   </a>
                 </div>
-              </article>
+              </ScrollReveal>
             ))}
           </div>
         </section>
@@ -279,8 +282,8 @@ export default function Home() {
           className="grid scroll-mt-32 grid-cols-1 gap-12 md:grid-cols-2"
           id="experience"
         >
-          {timeline.map((item) => (
-            <div className="space-y-8" key={item.heading}>
+          {timeline.map((item, index) => (
+            <ScrollReveal direction={index % 2 === 0 ? "left" : "right"} className="space-y-8" key={item.heading}>
               <h2 className="font-headline-lg text-headline-lg uppercase">
                 {item.heading}
               </h2>
@@ -301,12 +304,12 @@ export default function Home() {
                   <p className="mt-2 font-body-md text-body-md">{item.body}</p>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </section>
       </main>
 
-      <footer className="mt-24 w-full border-t-4 border-black bg-on-background px-4 py-12 md:px-16">
+      <ScrollReveal direction="up" className="mt-24 w-full border-t-4 border-black bg-on-background px-4 py-12 md:px-16">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row">
           <div className="space-y-4">
             <div className="font-label-caps text-2xl font-black text-terminal-green">
@@ -334,7 +337,7 @@ export default function Home() {
             </span>
           </div>
         </div>
-      </footer>
+      </ScrollReveal>
     </>
   );
 }
