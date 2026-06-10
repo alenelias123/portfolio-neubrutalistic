@@ -113,9 +113,30 @@ function TerminalApp({ onClose }: { onClose: () => void }) {
 
 function ComputerModel({ activeWindow, onNavigate }: { activeWindow: string, onNavigate: (win: any) => void }) {
   const meshRef = useRef<THREE.Group>(null);
+  const [currentTime, setCurrentTime] = useState("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime(
+        now.toLocaleTimeString([], {
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+      );
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 60000); // Update every minute
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <group ref={meshRef} position={[0, -0.5, 0]}>
+      {/* ... rest of the group content */}
       {/* Main Case - Solid block */}
       <mesh position={[0, 0, -0.05]} castShadow>
         <boxGeometry args={[4, 3, 2.1]} />
@@ -156,7 +177,7 @@ function ComputerModel({ activeWindow, onNavigate }: { activeWindow: string, onN
               <div className="flex gap-4">
                 <span className="font-bold text-cyber-yellow capitalize">{activeWindow === 'boot' ? 'System' : activeWindow}</span>
               </div>
-              <div className="font-medium opacity-80">Jun 10, 12:42</div>
+              <div className="font-medium opacity-80">{currentTime}</div>
               <div className="flex gap-2">
                 <button onClick={() => onNavigate("wifi")} className="material-symbols-outlined text-[14px] hover:text-cyber-yellow transition-colors">wifi</button>
                 <button onClick={() => window.location.reload()} className="material-symbols-outlined text-[14px] hover:text-red-500 transition-colors">power_settings_new</button>
