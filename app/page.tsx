@@ -5,6 +5,7 @@ import { useState } from "react";
 import CursorRayTracerWrapper from "./components/CursorRayTracerWrapper";
 import ScrollReveal from "./components/ScrollReveal";
 import TerminalScene from "./components/TerminalScene";
+import NeubrutalistDino from "./components/NeubrutalistDino";
 
 const heroImage =
   "/517RsN-X6-L.webp";
@@ -173,14 +174,7 @@ export default function Home() {
 
           <ScrollReveal direction="right" className="relative w-full flex-1">
             <div className="absolute -left-4 -top-4 h-full w-full border-4 border-black bg-signal-pink" />
-            <Image
-              alt="Cybersecurity workspace with neon server racks and digital interfaces"
-              className="relative z-10 aspect-square w-full border-4 border-black object-cover grayscale transition-all duration-500 hover:grayscale-0"
-              height={900}
-              priority
-              src={heroImage}
-              width={900}
-            />
+            <NeubrutalistDino />
           </ScrollReveal>
         </section>
 
