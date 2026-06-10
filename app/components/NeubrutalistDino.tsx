@@ -160,12 +160,12 @@ export default function NeubrutalistDino() {
     <div 
       ref={gameRef}
       onClick={handleJump}
-      className="relative w-full aspect-square flex items-center justify-center p-8 bg-white-base border-4 border-black neubrutalist-shadow cursor-pointer overflow-hidden select-none"
+      className="relative w-full aspect-square md:aspect-video lg:aspect-square flex items-center justify-center p-4 md:p-8 bg-white-base border-4 border-black neubrutalist-shadow cursor-pointer overflow-hidden select-none"
     >
       {/* Game Stage */}
-      <div className="relative w-full h-64 border-b-4 border-black mt-12">
+      <div className="relative w-full h-48 md:h-64 border-b-4 border-black mt-8 md:mt-12">
         {/* Score */}
-        <div className="absolute top-[-40px] right-0 font-label-code text-xl font-black">
+        <div className="absolute top-[-30px] md:top-[-40px] right-0 font-label-code text-lg md:text-xl font-black">
           SCORE: {Math.floor(score / 10)}
         </div>
 

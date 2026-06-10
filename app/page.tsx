@@ -92,7 +92,7 @@ const timeline = [
       {
         dotClass: "bg-signal-pink",
         dates: "2024-2028",
-        title: "B.Tech in Engineering",
+        title: "B.Tech in Computer Science and Engineering",
         subtitle: "Cochin University of Science and Technology (CUSAT)",
         body: "Focusing on Network Engineering and System Security architectures.",
       },
@@ -150,7 +150,7 @@ export default function Home() {
             <div className="inline-block rotate-[-2deg] border-2 border-black bg-tertiary-container px-3 py-1 font-label-code text-label-code">
               SYSTEM_INIT: READY
             </div>
-            <h1 className="max-w-4xl font-display-lg text-display-lg leading-none text-on-surface md:text-[84px]">
+            <h1 className="max-w-4xl font-display-lg text-display-lg leading-none text-on-surface md:text-[84px] text-5xl">
               ALEN ELIAS CHERIAN
             </h1>
             <p className="max-w-xl font-body-lg text-body-lg text-on-surface">
@@ -176,14 +176,14 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal direction="right" className="relative w-full flex-1">
-            <div className="absolute -left-4 -top-4 h-full w-full border-4 border-black bg-signal-pink" />
+          <ScrollReveal direction="right" className="relative w-full flex-1 max-w-md md:max-w-none">
+            <div className="absolute -left-4 -top-4 h-full w-full border-4 border-black bg-signal-pink hidden md:block" />
             <NeubrutalistDino />
           </ScrollReveal>
         </section>
 
-        <section className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <ScrollReveal direction="up" className="neubrutalist-shadow space-y-4 border-4 border-black bg-white-base p-8 md:col-span-2">
+        <section className="grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-3">
+          <ScrollReveal direction="up" className="neubrutalist-shadow space-y-4 border-4 border-black bg-white-base p-6 md:p-8 md:col-span-2">
             <h2 className="font-headline-lg text-headline-lg uppercase underline decoration-cyber-yellow decoration-8 underline-offset-4">
               Identity_Brief
             </h2>
@@ -208,7 +208,7 @@ export default function Home() {
             </p>
           </ScrollReveal>
 
-          <ScrollReveal direction="up" delay={0.2} className="neubrutalist-shadow flex flex-col justify-between border-4 border-black bg-tertiary-container p-8">
+          <ScrollReveal direction="up" delay={0.2} className="neubrutalist-shadow flex flex-col justify-between border-4 border-black bg-tertiary-container p-6 md:p-8">
             <div>
               <h3 className="mb-2 font-label-caps text-label-caps text-on-surface-variant">
                 ACHIEVEMENT_01
@@ -312,11 +312,11 @@ export default function Home() {
               <h2 className="font-headline-lg text-headline-lg uppercase">
                 {section.heading}
               </h2>
-              <div className="relative ml-2 space-y-12 border-l-4 border-black pl-8">
+              <div className="relative ml-2 space-y-12 border-l-4 border-black pl-6 md:pl-8">
                 {section.items.map((item, itemIndex) => (
                   <div className="relative" key={itemIndex}>
                     <div
-                      className={`absolute -left-[42px] top-0 h-4 w-4 border-4 border-black ${item.dotClass}`}
+                      className={`absolute -left-[34px] md:-left-[42px] top-0 h-4 w-4 border-4 border-black ${item.dotClass}`}
                     />
                     <span className="bg-on-background px-2 py-1 font-label-code text-label-code text-terminal-green">
                       {item.dates}
