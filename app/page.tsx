@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import CursorRayTracerWrapper from "./components/CursorRayTracerWrapper";
 import ScrollReveal from "./components/ScrollReveal";
+import TerminalScene from "./components/TerminalScene";
 
 const heroImage =
   "/517RsN-X6-L.webp";
@@ -77,6 +81,12 @@ const timeline = [
 ];
 
 export default function Home() {
+  const [showTerminal, setShowTerminal] = useState(false);
+
+  if (showTerminal) {
+    return <TerminalScene />;
+  }
+
   return (
     <>
       <CursorRayTracerWrapper />
@@ -320,7 +330,13 @@ export default function Home() {
             </p>
           </div>
           <div className="flex gap-8">
-            {["GitHub", "LinkedIn", "Terminal"].map((item) => (
+            <button
+              className="font-label-code text-label-code text-terminal-green transition-all hover:skew-x-2 hover:text-signal-pink cursor-pointer"
+              onClick={() => setShowTerminal(true)}
+            >
+              Terminal
+            </button>
+            {["GitHub", "LinkedIn"].map((item) => (
               <a
                 className="font-label-code text-label-code text-terminal-green transition-all hover:skew-x-2 hover:text-signal-pink"
                 href="#home"
