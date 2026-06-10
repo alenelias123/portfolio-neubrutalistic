@@ -135,7 +135,7 @@ export default function Home() {
 
         <a
           className="neubrutalist-shadow-hover border-4 border-black bg-secondary px-4 py-2 font-label-caps text-label-caps text-white-base transition-all"
-          href="mailto:alen@example.com"
+          href="mailto:aleneliascherian@gmail.com"
         >
           Hire Me
         </a>

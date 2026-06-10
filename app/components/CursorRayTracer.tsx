@@ -206,6 +206,7 @@ export default function CursorRayTracer() {
     };
     const onScroll = () => {
       targetScrollY = window.scrollY;
+      lastMove = performance.now(); // Keep lasers active during scroll
     };
     const onResize = () => {
       W = window.innerWidth; H = window.innerHeight;
@@ -263,6 +264,8 @@ export default function CursorRayTracer() {
       const pulse = 1 + Math.sin(t * 0.002) * 0.1;
       emLine.scale.setScalar(pulse);
 
+      // CRITICAL: Update matrix so world position is current for this frame
+      emLine.updateMatrixWorld();
       const emitterPos = new THREE.Vector3().setFromMatrixPosition(emLine.matrixWorld);
 
       /* nodes — dynamically scatter and animate */
