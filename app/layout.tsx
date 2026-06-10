@@ -18,9 +18,9 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ALEN.SH | Cybersecurity & Network Engineering",
+  title: "ALEN.SH | Cybersecurity & Development",
   description:
-    "Portfolio of Alen Elias Cherian, a cybersecurity and network engineering student at CUSAT.",
+    "Portfolio of Alen Elias Cherian, Computer Science and Engineering student at CUSAT.",
 };
 
 export default function RootLayout({

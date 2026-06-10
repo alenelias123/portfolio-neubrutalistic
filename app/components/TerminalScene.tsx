@@ -66,7 +66,7 @@ function TerminalApp({ onClose }: { onClose: () => void }) {
         response = Object.keys(files).join("  ") || "No files found.";
         break;
       case "about":
-        response = "Cybersecurity student at CUSAT.";
+        response = "Computer Science and Engineering student at CUSAT.";
         break;
       case "clear":
         setHistory([]);

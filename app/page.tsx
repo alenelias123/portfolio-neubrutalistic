@@ -154,7 +154,7 @@ export default function Home() {
               ALEN ELIAS CHERIAN
             </h1>
             <p className="max-w-xl font-body-lg text-body-lg text-on-surface">
-              Cybersecurity & Network Engineering student at{" "}
+             Computer Science and Engineering student at{" "}
               <span className="border-b-2 border-black bg-cyber-yellow px-1">
                 CUSAT
               </span>
