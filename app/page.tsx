@@ -64,19 +64,34 @@ const projects = [
 const timeline = [
   {
     heading: "Experience",
-    dotClass: "bg-cyber-yellow",
-    dates: "2025 - PRESENT",
-    title: "Network Engineer Intern",
-    subtitle: "Syama Dynamic",
-    body: "Managing enterprise-grade network infrastructure and implementing security protocols.",
+    items: [
+      {
+        dotClass: "bg-cyber-yellow",
+        dates: "2026",
+        title: "MERN Stack Intern",
+        subtitle: "ChargeMod (Software Department)",
+        body: "Developing scalable full-stack applications using MongoDB, Express.js, React, and Node.js. Contributing to EV infrastructure management software and internal tooling.",
+      },
+      {
+        dotClass: "bg-cyber-yellow",
+        dates: "2025",
+        title: "Network Engineer Intern",
+        subtitle: "Syama Dynamic",
+        body: "Managing enterprise-grade network infrastructure and implementing security protocols.",
+      },
+    ]
   },
   {
     heading: "Education",
-    dotClass: "bg-signal-pink",
-    dates: "2024 - 2028",
-    title: "B.Tech in Engineering",
-    subtitle: "Cochin University of Science and Technology (CUSAT)",
-    body: "Focusing on Network Engineering and System Security architectures.",
+    items: [
+      {
+        dotClass: "bg-signal-pink",
+        dates: "2024",
+        title: "B.Tech in Engineering",
+        subtitle: "Cochin University of Science and Technology (CUSAT)",
+        body: "Focusing on Network Engineering and System Security architectures.",
+      },
+    ]
   },
 ];
 
@@ -292,27 +307,29 @@ export default function Home() {
           className="grid scroll-mt-32 grid-cols-1 gap-12 md:grid-cols-2"
           id="experience"
         >
-          {timeline.map((item, index) => (
-            <ScrollReveal direction={index % 2 === 0 ? "left" : "right"} className="space-y-8" key={item.heading}>
+          {timeline.map((section, index) => (
+            <ScrollReveal direction={index % 2 === 0 ? "left" : "right"} className="space-y-8" key={section.heading}>
               <h2 className="font-headline-lg text-headline-lg uppercase">
-                {item.heading}
+                {section.heading}
               </h2>
               <div className="relative ml-2 space-y-12 border-l-4 border-black pl-8">
-                <div className="relative">
-                  <div
-                    className={`absolute -left-[42px] top-0 h-4 w-4 border-4 border-black ${item.dotClass}`}
-                  />
-                  <span className="bg-on-background px-2 py-1 font-label-code text-label-code text-terminal-green">
-                    {item.dates}
-                  </span>
-                  <h3 className="mt-2 font-headline-md text-headline-md">
-                    {item.title}
-                  </h3>
-                  <p className="font-bold text-on-surface-variant">
-                    {item.subtitle}
-                  </p>
-                  <p className="mt-2 font-body-md text-body-md">{item.body}</p>
-                </div>
+                {section.items.map((item, itemIndex) => (
+                  <div className="relative" key={itemIndex}>
+                    <div
+                      className={`absolute -left-[42px] top-0 h-4 w-4 border-4 border-black ${item.dotClass}`}
+                    />
+                    <span className="bg-on-background px-2 py-1 font-label-code text-label-code text-terminal-green">
+                      {item.dates}
+                    </span>
+                    <h3 className="mt-2 font-headline-md text-headline-md">
+                      {item.title}
+                    </h3>
+                    <p className="font-bold text-on-surface-variant">
+                      {item.subtitle}
+                    </p>
+                    <p className="mt-2 font-body-md text-body-md">{item.body}</p>
+                  </div>
+                ))}
               </div>
             </ScrollReveal>
           ))}
