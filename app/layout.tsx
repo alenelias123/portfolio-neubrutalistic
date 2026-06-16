@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import GSAPInitializer from "./components/GSAPInitializer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-dvh overflow-x-hidden font-body-md">
+        <GSAPInitializer />
         {children}
       </body>
     </html>

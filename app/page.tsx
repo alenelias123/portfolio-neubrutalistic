@@ -1,14 +1,14 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import CursorRayTracerWrapper from "./components/CursorRayTracerWrapper";
 import ScrollReveal from "./components/ScrollReveal";
 import TerminalScene from "./components/TerminalScene";
 import NeubrutalistDino from "./components/NeubrutalistDino";
-
-const heroImage =
-  "/517RsN-X6-L.webp";
+import ScrambleText from "./components/ScrambleText";
+import Marquee from "./components/Marquee";
+import PerspectiveTilt from "./components/PerspectiveTilt";
+import gsap from "gsap";
 
 const navItems = [
   { label: "Home", href: "#home", active: true },
@@ -100,15 +100,191 @@ const timeline = [
   },
 ];
 
-export default function Home() {
-  const [showTerminal, setShowTerminal] = useState(false);
+type TerminalPhase = "idle" | "falling" | "active";
 
-  if (showTerminal) {
-    return <TerminalScene />;
-  }
+export default function Home() {
+  const [terminalPhase, setTerminalPhase] = useState<TerminalPhase>("idle");
+  const portfolioRef = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const voidRef = useRef<HTMLElement>(null);
+  const isTransitioning = useRef(false);
+  const savedScrollY = useRef(0);
+
+  const triggerTerminalFall = useCallback(() => {
+    if (isTransitioning.current || terminalPhase !== "idle") return;
+
+    isTransitioning.current = true;
+    savedScrollY.current = window.scrollY;
+
+    const portfolio = portfolioRef.current;
+    if (portfolio) {
+      portfolio.style.position = "fixed";
+      portfolio.style.top = `${-savedScrollY.current}px`;
+      portfolio.style.left = "0";
+      portfolio.style.right = "0";
+      portfolio.style.width = "100%";
+      portfolio.style.zIndex = "70";
+      portfolio.style.willChange = "transform";
+      portfolio.style.transformOrigin = "center top";
+    }
+
+    document.body.style.overflow = "hidden";
+    setTerminalPhase("falling");
+  }, [terminalPhase]);
+
+  const handleBackToPortfolio = useCallback(() => {
+    if (isTransitioning.current) return;
+
+    const portfolio = portfolioRef.current;
+    const terminal = terminalRef.current;
+    if (!portfolio || !terminal) return;
+
+    isTransitioning.current = true;
+
+    portfolio.style.position = "fixed";
+    portfolio.style.top = "0";
+    portfolio.style.left = "0";
+    portfolio.style.right = "0";
+    portfolio.style.width = "100%";
+    portfolio.style.zIndex = "70";
+    portfolio.style.visibility = "visible";
+    portfolio.style.transformOrigin = "center top";
+    portfolio.style.willChange = "transform";
+
+    gsap.set(portfolio, {
+      y: window.innerHeight * 1.15,
+      rotateX: 14,
+      scale: 0.72,
+      opacity: 0,
+      filter: "blur(16px)",
+    });
+
+    gsap
+      .timeline({
+        onComplete: () => {
+          portfolio.style.position = "";
+          portfolio.style.top = "";
+          portfolio.style.left = "";
+          portfolio.style.right = "";
+          portfolio.style.width = "";
+          portfolio.style.zIndex = "";
+          portfolio.style.willChange = "";
+          portfolio.style.visibility = "";
+          portfolio.style.transformOrigin = "";
+          gsap.set(portfolio, { clearProps: "all" });
+
+          document.body.style.overflow = "";
+          setTerminalPhase("idle");
+          isTransitioning.current = false;
+          window.scrollTo({ top: savedScrollY.current, behavior: "instant" });
+        },
+      })
+      .to(portfolio, {
+        y: 0,
+        rotateX: 0,
+        scale: 1,
+        opacity: 1,
+        filter: "blur(0px)",
+        duration: 2.4,
+        ease: "power2.out",
+      })
+      .to(
+        terminal,
+        {
+          opacity: 0,
+          scale: 0.96,
+          duration: 1.8,
+          ease: "power2.in",
+        },
+        0
+      );
+  }, []);
+
+  useEffect(() => {
+    if (terminalPhase !== "falling") return;
+
+    const portfolio = portfolioRef.current;
+    const terminal = terminalRef.current;
+    if (!terminal) return;
+
+    gsap.set(terminal, { opacity: 1, scale: 1 });
+    gsap.set(portfolio, {
+      y: 0,
+      rotateX: 0,
+      scale: 1,
+      opacity: 1,
+      filter: "blur(0px)",
+      transformPerspective: 1400,
+    });
+
+    const fallDistance = window.innerHeight * 1.15;
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        if (portfolio) {
+          portfolio.style.visibility = "hidden";
+        }
+        setTerminalPhase("active");
+        isTransitioning.current = false;
+      },
+    });
+
+    if (!portfolio) return;
+
+    tl.to(portfolio, {
+      y: fallDistance * 0.94,
+      rotateX: 10,
+      scale: 0.78,
+      opacity: 0.35,
+      filter: "blur(6px)",
+      duration: 2.2,
+      ease: "power2.in",
+      transformPerspective: 1400,
+    });
+
+    tl.to(portfolio, {
+      y: fallDistance,
+      rotateX: 16,
+      scale: 0.68,
+      opacity: 0,
+      filter: "blur(20px)",
+      duration: 1.1,
+      ease: "power4.in",
+      transformPerspective: 1400,
+    });
+  }, [terminalPhase]);
+
+  useEffect(() => {
+    const voidEl = voidRef.current;
+    if (!voidEl || terminalPhase !== "idle") return;
+
+    let fallTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting || entry.intersectionRatio < 0.65) {
+          if (fallTimer) clearTimeout(fallTimer);
+          return;
+        }
+
+        fallTimer = setTimeout(() => {
+          triggerTerminalFall();
+        }, 400);
+      },
+      { threshold: [0.65, 0.85] }
+    );
+
+    observer.observe(voidEl);
+    return () => {
+      observer.disconnect();
+      if (fallTimer) clearTimeout(fallTimer);
+    };
+  }, [terminalPhase, triggerTerminalFall]);
 
   return (
     <>
+      <div ref={portfolioRef} className="fall-perspective bg-white-base">
       <CursorRayTracerWrapper />
       <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b-4 border-black bg-white-base px-4 py-4 shadow-[8px_8px_0_0_rgba(0,0,0,1)] md:px-16">
         <a
@@ -143,15 +319,17 @@ export default function Home() {
 
       <main className="mx-auto max-w-7xl space-y-24 px-4 py-12 md:px-16">
         <section
-          className="flex scroll-mt-32 flex-col items-center gap-12 pt-8 md:flex-row"
+          className="flex scroll-mt-32 flex-col items-stretch gap-10 pt-8 lg:flex-row lg:items-start lg:gap-16"
           id="home"
         >
-          <ScrollReveal direction="left" className="flex-1 space-y-6">
+          <ScrollReveal direction="left" className="min-w-0 flex-1 space-y-6 lg:max-w-[55%]">
             <div className="inline-block rotate-[-2deg] border-2 border-black bg-tertiary-container px-3 py-1 font-label-code text-label-code">
               SYSTEM_INIT: READY
             </div>
-            <h1 className="max-w-4xl font-display-lg text-display-lg leading-none text-on-surface md:text-[84px] text-5xl">
-              ALEN ELIAS CHERIAN
+            <h1
+              className="font-display-lg font-black leading-[0.92] tracking-tight text-on-surface [font-size:clamp(2.25rem,4.5vw+0.5rem,4.25rem)]"
+            >
+              <ScrambleText text="ALEN ELIAS CHERIAN" />
             </h1>
             <p className="max-w-xl font-body-lg text-body-lg text-on-surface">
              Computer Science and Engineering student at{" "}
@@ -176,16 +354,23 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal direction="right" className="relative w-full flex-1 max-w-md md:max-w-none">
-            <div className="absolute -left-4 -top-4 h-full w-full border-4 border-black bg-signal-pink hidden md:block" />
-            <NeubrutalistDino />
+          <ScrollReveal
+            direction="right"
+            className="relative min-w-0 w-full flex-1 lg:max-w-[45%] lg:shrink-0"
+          >
+            <PerspectiveTilt className="w-full">
+              <div className="absolute -left-4 -top-4 h-full w-full border-4 border-black bg-signal-pink hidden lg:block" />
+              <NeubrutalistDino />
+            </PerspectiveTilt>
           </ScrollReveal>
         </section>
+
+        <Marquee text="CYBERSECURITY • NETWORK ENGINEERING • FULL STACK DEVELOPMENT • SYSTEM AUDITING • " speed={30} className="bg-black py-4 text-white font-black text-2xl" />
 
         <section className="grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-3">
           <ScrollReveal direction="up" className="neubrutalist-shadow space-y-4 border-4 border-black bg-white-base p-6 md:p-8 md:col-span-2">
             <h2 className="font-headline-lg text-headline-lg uppercase underline decoration-cyber-yellow decoration-8 underline-offset-4">
-              Identity_Brief
+              <ScrambleText text="Identity_Brief" trigger="hover" />
             </h2>
             <p className="font-body-lg text-body-lg">
               I am currently in my 2nd year of B.Tech at Cochin University of
@@ -262,6 +447,7 @@ export default function Home() {
                 delay={index * 0.1}
                 className="neubrutalist-shadow neubrutalist-shadow-hover group flex w-full flex-col border-4 border-black bg-white-base transition-all"
               >
+                <PerspectiveTilt intensity={10}>
                 <div className={`${project.headerClass} border-b-4 border-black p-4`}>
                   <h3 className="font-headline-md text-headline-md font-black uppercase">
                     {project.title}
@@ -298,6 +484,7 @@ export default function Home() {
                     </span>
                   </a>
                 </div>
+                </PerspectiveTilt>
               </ScrollReveal>
             ))}
           </div>
@@ -334,6 +521,44 @@ export default function Home() {
             </ScrollReveal>
           ))}
         </section>
+
+        <section
+          ref={voidRef}
+          className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden border-t-8 border-black bg-black text-white"
+        >
+          <div
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#000_72%)]"
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white-base to-transparent opacity-10"
+            aria-hidden="true"
+          />
+          <div className="relative z-10 flex flex-col items-center gap-8 px-6 py-16 text-center">
+            <h2 className="text-4xl font-black md:text-6xl">
+              <ScrambleText text="TERMINAL VOID" />
+            </h2>
+            <p className="max-w-lg font-mono text-sm text-white/60 md:text-base">
+              Drop through the site layer into the mission control terminal below.
+            </p>
+            <div className="w-full max-w-md h-2 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-signal-pink animate-pulse"
+                style={{ width: "72%" }}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={triggerTerminalFall}
+              className="neubrutalist-shadow neubrutalist-shadow-hover border-4 border-white bg-cyber-yellow px-8 py-4 font-headline-md text-xl font-black text-on-surface transition-all animate-bounce"
+            >
+              INITIATE FALL
+            </button>
+            <span className="material-symbols-outlined text-5xl text-cyber-yellow animate-pulse">
+              keyboard_double_arrow_down
+            </span>
+          </div>
+        </section>
       </main>
 
       <ScrollReveal direction="up" className="mt-24 w-full border-t-4 border-black bg-on-background px-4 py-12 md:px-16">
@@ -349,7 +574,7 @@ export default function Home() {
           <div className="flex gap-8">
             <button
               className="font-label-code text-label-code text-terminal-green transition-all hover:skew-x-2 hover:text-signal-pink cursor-pointer"
-              onClick={() => setShowTerminal(true)}
+              onClick={triggerTerminalFall}
             >
               Terminal
             </button>
@@ -378,6 +603,17 @@ export default function Home() {
           </div>
         </div>
       </ScrollReveal>
+      </div>
+
+      {(terminalPhase === "falling" || terminalPhase === "active") && (
+        <div
+          ref={terminalRef}
+          className="fixed inset-0 z-[60] will-change-transform"
+          style={{ perspective: "1400px" }}
+        >
+          <TerminalScene onBack={handleBackToPortfolio} />
+        </div>
+      )}
     </>
   );
 }

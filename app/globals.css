@@ -169,3 +169,32 @@ button {
   50% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes terminal-window-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.terminal-window-enter {
+  animation: terminal-window-enter 0.25s ease-out forwards;
+}
+
+.fall-perspective {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
